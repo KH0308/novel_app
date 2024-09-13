@@ -13,7 +13,7 @@ class AppRoutes {
     GetPage(name: '/novelSignIn', page: () => SignInScreen()),
     GetPage(name: '/novelSignUp', page: () => SignUpScreen()),
     GetPage(name: '/novelOTPValidation', page: () => OTPScreen()),
-    GetPage(name: '/novelListHome', page: () => const NovelListHomeScreen()),
-    GetPage(name: '/novelDetail', page: () => const NovelDetailsScreen()),
+    GetPage(name: '/novelListHome', page: () => NovelListHomeScreen()),
+    GetPage(name: '/novelDetail', page: () => NovelDetailsScreen()),
   ];
 }
