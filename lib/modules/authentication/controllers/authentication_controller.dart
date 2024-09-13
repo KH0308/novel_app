@@ -1,24 +1,49 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:novel_app/database/api_novel.dart';
+import 'package:novel_app/widgets/snackbar.dart';
 
 class AuthController extends GetxController {
   var signIn = {}.obs;
   var signUp = {}.obs;
-  var codeOTP = {}.obs;
   var isLoading = true.obs;
   var errorMessage = ''.obs;
+  SnackBarWidget snackBarWidget = SnackBarWidget();
 
-  Future<void> signUpUser(String email, String firstName, String lastName,
-      String gender, String countryCode, String phoneNumber) async {
+  Future<void> signUpUser(
+      String email,
+      String firstName,
+      String lastName,
+      String gender,
+      String countryCode,
+      String phoneNumber,
+      BuildContext context) async {
     try {
       isLoading(true);
       var fetchSignUp = await ApiNovel().authSignUp(
           email, firstName, lastName, gender, countryCode, phoneNumber);
-      signUp.value = {
-        'phoneNum': fetchSignUp['user']['phoneNumber'],
-        'phoneOtp': fetchSignUp['otp'],
-      };
-      Get.toNamed('/novelOTPValidation', arguments: signUp);
+      if (fetchSignUp['user'] != null) {
+        signUp.value = {
+          'phoneNum': fetchSignUp['user']['phoneNumber'],
+          'phoneOtp': fetchSignUp['otp'],
+          'email': fetchSignUp['user']['email'],
+        };
+        Get.toNamed('/novelOTPValidation', arguments: signUp);
+      } else if (fetchSignUp['data']['error']['name'] == "BadRequestError") {
+        snackBarWidget.displaySnackBar(
+            'Account already registered', Colors.black, Colors.red, context);
+      } else if (fetchSignUp['data']['error']['name'] == "ForbiddenError") {
+        snackBarWidget.displaySnackBar(
+            'Access Forbidden!!', Colors.red, Colors.white, context);
+      } else {
+        snackBarWidget.displaySnackBar(
+            "Opps there have some error, try again later",
+            Colors.black,
+            Colors.red,
+            context);
+      }
     } catch (e) {
       errorMessage.value = 'Failed to sign up: $e';
     } finally {
@@ -26,15 +51,27 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> signInUser(String phoneNumber) async {
+  Future<void> signInUser(String emailUser, BuildContext context) async {
     try {
       isLoading(true);
-      var fetchSignIn = await ApiNovel().authSignIn(phoneNumber);
-      signIn.value = {
-        'phoneNum': fetchSignIn['user']['phoneNumber'],
-        'phoneOtp': fetchSignIn['otp'],
-      };
-      Get.toNamed('/novelOTPValidation', arguments: signIn);
+      var fetchSignIn = await ApiNovel().authSignIn(emailUser);
+      if (fetchSignIn == 'Success') {
+        snackBarWidget.displaySnackBar(
+            'Welcome Back', Colors.black, Colors.white, context);
+        Get.offAllNamed('/novelListHome');
+      } else if (fetchSignIn == 'Failed') {
+        snackBarWidget.displaySnackBar(
+            "Account doesn't exist", Colors.black, Colors.red, context);
+      } else if (fetchSignIn == 'Forbidden') {
+        snackBarWidget.displaySnackBar(
+            "Access forbidden!!", Colors.red, Colors.white, context);
+      } else {
+        snackBarWidget.displaySnackBar(
+            "Opps there have some error, try again later",
+            Colors.black,
+            Colors.red,
+            context);
+      }
     } catch (e) {
       errorMessage.value = 'Failed to sign in: $e';
     } finally {
@@ -42,17 +79,57 @@ class AuthController extends GetxController {
     }
   }
 
-  Future<void> verifyOtp(String phoneNumber, String otpCode) async {
+  Future<void> verifyOtp(
+      String phoneNumber, String otpCode, BuildContext context) async {
     try {
       isLoading(true);
-      await ApiNovel().authOTP(phoneNumber, otpCode);
-      codeOTP.value = {
-        'phoneNumber': phoneNumber,
-        'Code': otpCode,
-      };
-      Get.offAllNamed('/novelListHome');
+      var fetchOtp = await ApiNovel().authOTP(phoneNumber, otpCode);
+      if (fetchOtp['user'] != null) {
+        snackBarWidget.displaySnackBar(
+            'Verify Success, Welcome', Colors.black, Colors.white, context);
+        Get.offAllNamed('/novelListHome');
+      } else if (fetchOtp['data']['error']['name'] == "BadRequestError") {
+        snackBarWidget.displaySnackBar(
+            'Account already registered', Colors.black, Colors.red, context);
+      } else if (fetchOtp['data']['error']['name'] == "ForbiddenError") {
+        snackBarWidget.displaySnackBar(
+            'Access Forbidden!!', Colors.red, Colors.white, context);
+      } else {
+        snackBarWidget.displaySnackBar(
+            "Opps there have some error, try again later",
+            Colors.black,
+            Colors.red,
+            context);
+      }
     } catch (e) {
       errorMessage.value = 'Failed to verify OTP: $e';
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> resendOtp(String emailUser, BuildContext context) async {
+    try {
+      isLoading(true);
+      var reFetchOtp = await ApiNovel().reAuthOtp(emailUser);
+      if (reFetchOtp.length == 6) {
+        snackBarWidget.displaySnackBar(
+            'OTP resend is $reFetchOtp', Colors.black, Colors.white, context);
+      } else if (reFetchOtp == 'Failed') {
+        snackBarWidget.displaySnackBar(
+            "OTP resend failed", Colors.black, Colors.red, context);
+      } else if (reFetchOtp == 'Forbidden') {
+        snackBarWidget.displaySnackBar(
+            "Access forbidden!!", Colors.red, Colors.white, context);
+      } else {
+        snackBarWidget.displaySnackBar(
+            "Opps there have some error, try again later",
+            Colors.black,
+            Colors.red,
+            context);
+      }
+    } catch (e) {
+      errorMessage.value = 'Failed to resend OTP: $e';
     } finally {
       isLoading(false);
     }

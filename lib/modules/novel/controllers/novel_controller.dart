@@ -18,7 +18,13 @@ class NovelController extends GetxController {
     try {
       isLoading(true);
       var fetchedNovels = await ApiNovel().fetchNovelLists();
-      novels.value = fetchedNovels;
+      if (fetchedNovels.isNotEmpty) {
+        novels.value = fetchedNovels;
+        isLoading.value = false;
+      } else {
+        errorMessage.value = 'Data is empty';
+        isLoading.value = false;
+      }
     } catch (e) {
       errorMessage.value = 'Failed to load novels: $e';
     } finally {
@@ -30,7 +36,13 @@ class NovelController extends GetxController {
     try {
       isLoading(true);
       var details = await ApiNovel().fetchNovelDetails(novelId);
-      novelDetails.value = details;
+      if (details.isNotEmpty) {
+        novelDetails.value = details;
+        isLoading.value = false;
+      } else {
+        errorMessage.value = 'Data is empty';
+        isLoading.value = false;
+      }
     } catch (e) {
       errorMessage.value = 'Failed to load novel details: $e';
     } finally {

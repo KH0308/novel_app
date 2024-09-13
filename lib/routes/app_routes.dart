@@ -10,9 +10,9 @@ import '../modules/novel/views/novel_list_home_screen.dart';
 class AppRoutes {
   static final routes = [
     GetPage(name: '/novelOnBoard', page: () => const OnBoardScreen()),
-    GetPage(name: '/novelSignIn', page: () => const SignInScreen()),
-    GetPage(name: '/novelSignUp', page: () => const SignUpScreen()),
-    GetPage(name: '/novelOTPValidation', page: () => const OTPScreen()),
+    GetPage(name: '/novelSignIn', page: () => SignInScreen()),
+    GetPage(name: '/novelSignUp', page: () => SignUpScreen()),
+    GetPage(name: '/novelOTPValidation', page: () => OTPScreen()),
     GetPage(name: '/novelListHome', page: () => const NovelListHomeScreen()),
     GetPage(name: '/novelDetail', page: () => const NovelDetailsScreen()),
   ];
