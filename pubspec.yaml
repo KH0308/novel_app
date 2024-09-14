@@ -37,7 +37,7 @@ dependencies:
   connectivity_plus: ^5.0.2
   get: ^4.6.6
   http: ^1.2.0
-  google_fonts:
+  google_fonts: 6.1.0
   intl:
   smooth_page_indicator:
   flutter_html:

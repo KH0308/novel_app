@@ -5,7 +5,7 @@ import '../../../database/api_novel.dart';
 class NovelController extends GetxController {
   var novels = [].obs;
   var novelDetails = {}.obs;
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var errorMessage = ''.obs;
 
   @override

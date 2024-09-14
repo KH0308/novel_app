@@ -78,7 +78,7 @@ class SignUpScreen extends StatelessWidget {
                           color: Colors.grey,
                           fontStyle: FontStyle.normal,
                         ),
-                        fillColor: Colors.orange.shade100,
+                        fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
@@ -120,7 +120,7 @@ class SignUpScreen extends StatelessWidget {
                           color: Colors.grey,
                           fontStyle: FontStyle.normal,
                         ),
-                        fillColor: Colors.orange.shade100,
+                        fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
@@ -162,7 +162,7 @@ class SignUpScreen extends StatelessWidget {
                           color: Colors.grey,
                           fontStyle: FontStyle.normal,
                         ),
-                        fillColor: Colors.orange.shade100,
+                        fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
@@ -196,8 +196,11 @@ class SignUpScreen extends StatelessWidget {
                         decoration: InputDecoration(
                           labelText: 'Gender',
                           filled: true,
-                          fillColor: Colors.orange.shade100,
-                          prefixIcon: const Icon(Icons.person),
+                          fillColor: Colors.grey.shade200,
+                          prefixIcon: Icon(
+                            Icons.person,
+                            color: Colors.teal.shade400,
+                          ),
                         ),
                       ),
                     ),
@@ -213,11 +216,11 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.transparent,
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                      backgroundColor: Colors.teal.shade400,
-                                      strokeWidth: 6.0,
+                                      backgroundColor: Colors.black,
+                                      strokeWidth: 3.0,
                                       strokeCap: StrokeCap.round,
-                                      valueColor: const AlwaysStoppedAnimation(
-                                          Colors.black),
+                                      valueColor: AlwaysStoppedAnimation(
+                                          Colors.teal.shade400),
                                     ),
                                   ),
                                 );
@@ -228,6 +231,8 @@ class SignUpScreen extends StatelessWidget {
                                   size: 12,
                                   color: Colors.red,
                                 );
+                                // return Text(
+                                //     '${phoneCodeController.errorMessage}');
                               }
                               return DropdownButton<String>(
                                 value: phoneCodeController.selectedCode.value,
@@ -283,6 +288,8 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.grey,
                                   fontStyle: FontStyle.normal,
                                 ),
+                                fillColor: Colors.grey.shade200,
+                                filled: true,
                                 border: const OutlineInputBorder(),
                                 labelStyle:
                                     const TextStyle(color: Colors.black),

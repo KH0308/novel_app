@@ -183,21 +183,50 @@ class ApiNovel {
     }
   }
 
-  Future<List<Map<String, String>>> fetchCountryCodes() async {
+  // Future<List<Map<String, String>>> fetchCountryCodes() async {
+  //   final response =
+  //       await http.get(Uri.parse('$baseUrl/countryCode'), headers: {
+  //     'Authorization': 'Bearer $token',
+  //   });
+  //   if (response.statusCode == 200) {
+  //     var data = json.decode(response.body)['data'];
+  //     return data.map<Map<String, String>>((country) {
+  //       return {
+  //         'dialCode': country['dialCode'],
+  //         'code': country['code'],
+  //         'name': country['name'],
+  //         'flag': country['flag'],
+  //       };
+  //     }).toList();
+  //   } else if (response.statusCode == 400) {
+  //     debugPrint('Bad Request');
+  //     return [];
+  //   } else if (response.statusCode == 403) {
+  //     debugPrint('Access forbidden');
+  //     return [];
+  //   } else if (response.statusCode == 404 || response.statusCode == 500) {
+  //     debugPrint('Page Not Found or Server down');
+  //     return [];
+  //   } else {
+  //     throw Exception('Failed to load country codes');
+  //   }
+  // }
+
+  Future<List<Map<String, dynamic>>> fetchCountryCodes() async {
     final response =
         await http.get(Uri.parse('$baseUrl/countryCode'), headers: {
       'Authorization': 'Bearer $token',
     });
     if (response.statusCode == 200) {
       var data = json.decode(response.body)['data'];
-      return data.map<Map<String, String>>((country) {
+      return List<Map<String, dynamic>>.from(data.map((country) {
         return {
           'dialCode': country['dialCode'],
           'code': country['code'],
           'name': country['name'],
           'flag': country['flag'],
         };
-      }).toList();
+      }));
     } else if (response.statusCode == 400) {
       debugPrint('Bad Request');
       return [];

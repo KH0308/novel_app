@@ -8,7 +8,7 @@ import 'package:novel_app/widgets/snackbar.dart';
 class AuthController extends GetxController {
   var signIn = {}.obs;
   var signUp = {}.obs;
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var errorMessage = ''.obs;
   SnackBarWidget snackBarWidget = SnackBarWidget();
 
@@ -30,11 +30,12 @@ class AuthController extends GetxController {
           'phoneOtp': fetchSignUp['otp'],
           'email': fetchSignUp['user']['email'],
         };
+
         Get.toNamed('/novelOTPValidation', arguments: signUp);
-      } else if (fetchSignUp['data']['error']['name'] == "BadRequestError") {
+      } else if (fetchSignUp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             'Account already registered', Colors.black, Colors.red, context);
-      } else if (fetchSignUp['data']['error']['name'] == "ForbiddenError") {
+      } else if (fetchSignUp['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             'Access Forbidden!!', Colors.red, Colors.white, context);
       } else {
@@ -54,18 +55,20 @@ class AuthController extends GetxController {
   Future<void> signInUser(String emailUser, BuildContext context) async {
     try {
       isLoading(true);
+      debugPrint('${isLoading.value}');
       var fetchSignIn = await ApiNovel().authSignIn(emailUser);
       if (fetchSignIn['user'] != null) {
         snackBarWidget.displaySnackBar(
             'Welcome Back', Colors.black, Colors.white, context);
         Get.offAllNamed('/novelListHome');
-      } else if (fetchSignIn['data']['error']['name'] == "BadRequestError") {
+      } else if (fetchSignIn['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             "Account doesn't exist", Colors.black, Colors.red, context);
-      } else if (fetchSignIn['data']['error']['name'] == "ForbiddenError") {
+      } else if (fetchSignIn['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             "Access forbidden!!", Colors.red, Colors.white, context);
       } else {
+        isLoading(false);
         snackBarWidget.displaySnackBar(
             "Opps there have some error, try again later",
             Colors.black,
@@ -76,6 +79,7 @@ class AuthController extends GetxController {
       errorMessage.value = 'Failed to sign in: $e';
     } finally {
       isLoading(false);
+      debugPrint('${isLoading.value}');
     }
   }
 
@@ -88,10 +92,10 @@ class AuthController extends GetxController {
         snackBarWidget.displaySnackBar(
             'Verify Success, Welcome', Colors.black, Colors.white, context);
         Get.offAllNamed('/novelListHome');
-      } else if (fetchOtp['data']['error']['name'] == "BadRequestError") {
+      } else if (fetchOtp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             'Account already registered', Colors.black, Colors.red, context);
-      } else if (fetchOtp['data']['error']['name'] == "ForbiddenError") {
+      } else if (fetchOtp['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             'Access Forbidden!!', Colors.red, Colors.white, context);
       } else {
@@ -115,10 +119,10 @@ class AuthController extends GetxController {
       if (reFetchOtp.length == 6) {
         snackBarWidget.displaySnackBar(
             'OTP resend is $reFetchOtp', Colors.black, Colors.white, context);
-      } else if (reFetchOtp['data']['error']['name'] == "BadRequestError") {
+      } else if (reFetchOtp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             "OTP resend failed", Colors.black, Colors.red, context);
-      } else if (reFetchOtp['data']['error']['name'] == "ForbiddenError") {
+      } else if (reFetchOtp['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             "Access forbidden!!", Colors.red, Colors.white, context);
       } else {

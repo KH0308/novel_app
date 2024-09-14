@@ -18,16 +18,17 @@ class SignInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/main_bg.png"),
-              fit: BoxFit.fill,
+        body: SingleChildScrollView(
+          physics: const RangeMaintainingScrollPhysics(),
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.95,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/main_bg.png"),
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          child: SingleChildScrollView(
-            physics: const RangeMaintainingScrollPhysics(),
             child: Column(
               children: [
                 Padding(
@@ -35,7 +36,7 @@ class SignInScreen extends StatelessWidget {
                     20,
                     80,
                     20,
-                    80,
+                    20,
                   ),
                   child: Container(
                     width: 150,
@@ -52,7 +53,7 @@ class SignInScreen extends StatelessWidget {
                 Text(
                   'Sign In',
                   style: GoogleFonts.poppins(
-                    fontSize: 18,
+                    fontSize: 24,
                     color: Colors.black,
                     fontWeight: FontWeight.w500,
                     fontStyle: FontStyle.normal,
@@ -61,9 +62,9 @@ class SignInScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
                     20,
-                    40,
-                    80,
+                    60,
                     20,
+                    40,
                   ),
                   child: Form(
                     key: formKey,
@@ -92,7 +93,7 @@ class SignInScreen extends StatelessWidget {
                           color: Colors.grey,
                           fontStyle: FontStyle.normal,
                         ),
-                        fillColor: Colors.orange.shade100,
+                        fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
                         labelStyle: const TextStyle(color: Colors.black),
@@ -127,29 +128,36 @@ class SignInScreen extends StatelessWidget {
                   style: ButtonStyle(
                     backgroundColor:
                         MaterialStateProperty.all<Color>(Colors.teal.shade400),
+                    fixedSize: MaterialStateProperty.all(const Size(100, 30)),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
                   ),
-                  child: authController.isLoading.isTrue
-                      ? Text(
-                          'Sign In',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontStyle: FontStyle.normal,
+                  child: Obx(
+                    () => authController.isLoading.isTrue
+                        ? Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                backgroundColor: Colors.teal.shade400,
+                                strokeWidth: 4.0,
+                                strokeCap: StrokeCap.round,
+                                valueColor:
+                                    const AlwaysStoppedAnimation(Colors.white),
+                              ),
+                            ),
+                          )
+                        : Text(
+                            'Sign In',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: Colors.white,
+                              fontStyle: FontStyle.normal,
+                            ),
                           ),
-                        )
-                      : const Center(
-                          child: CircularProgressIndicator(
-                            backgroundColor: Colors.white,
-                            strokeWidth: 6.0,
-                            strokeCap: StrokeCap.round,
-                            valueColor: AlwaysStoppedAnimation(Colors.black),
-                          ),
-                        ),
+                  ),
                 ),
                 const SizedBox(height: 5),
                 Text.rich(
@@ -187,7 +195,7 @@ class SignInScreen extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -201,7 +209,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
-                        Get.offNamed('/novelSignUp');
+                        Get.toNamed('/novelSignUp');
                       },
                       style: ButtonStyle(
                         backgroundColor:
