@@ -38,6 +38,9 @@ dependencies:
   get: ^4.6.6
   http: ^1.2.0
   google_fonts:
+  intl:
+  smooth_page_indicator:
+  flutter_html:
 
 dev_dependencies:
   flutter_test:
@@ -49,6 +52,12 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  image_path: "assets/images/logo_apps.png"
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

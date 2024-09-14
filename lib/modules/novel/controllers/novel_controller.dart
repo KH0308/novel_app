@@ -14,7 +14,7 @@ class NovelController extends GetxController {
     super.onInit();
   }
 
-  void fetchNovels() async {
+  Future<void> fetchNovels() async {
     try {
       isLoading(true);
       var fetchedNovels = await ApiNovel().fetchNovelLists();

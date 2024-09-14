@@ -10,7 +10,7 @@ class ApiNovel {
   final String token =
       'd2af211e09cd42823dd5c7d74bc5007ecb561e82d1c6cc7c1a325d5be9eb29aee81ecf671ce842e42acc3263c2f10271bc74cc365e363c7e3c9e79eb04058b75ca6d933503363c768a225acc8d868c7ae90796820910eb01f4c6df2995453f781c1d4458b6e9d366cfe879d720b83306526b5b5eeb44cab52f5f4c0d3427c686';
 
-  Future<String> authSignIn(String emailAsIdentifier) async {
+  Future<Map<String, dynamic>> authSignIn(String emailAsIdentifier) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       headers: {
@@ -24,16 +24,16 @@ class ApiNovel {
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       debugPrint('Sign In successful');
-      return 'Success';
+      return json.decode(response.body);
     } else if (response.statusCode == 400) {
       debugPrint('Data not exist');
-      return 'Failed';
+      return json.decode(response.body);
     } else if (response.statusCode == 403) {
       debugPrint('Forbidden');
-      return 'Forbidden';
+      return json.decode(response.body);
     } else if (response.statusCode == 404 || response.statusCode == 500) {
       debugPrint('Page Not Found or Server down');
-      return 'Not Found or Server Down';
+      return json.decode(response.body);
     } else {
       throw Exception('Failed to sign in');
     }
@@ -110,7 +110,7 @@ class ApiNovel {
     }
   }
 
-  Future<String> reAuthOtp(String emailAsIdentifier) async {
+  Future<Map<String, dynamic>> reAuthOtp(String emailAsIdentifier) async {
     final response = await http.post(
       Uri.parse('$baseUrl/login'),
       headers: {
@@ -128,13 +128,13 @@ class ApiNovel {
       return resendOtpCode;
     } else if (response.statusCode == 400) {
       debugPrint("Data not exist, otp can't resend");
-      return 'Failed';
+      return json.decode(response.body);
     } else if (response.statusCode == 403) {
       debugPrint('Forbidden');
-      return 'Forbidden';
+      return json.decode(response.body);
     } else if (response.statusCode == 404 || response.statusCode == 500) {
       debugPrint('Page Not Found or Server down');
-      return 'Not Found or Server Down';
+      return json.decode(response.body);
     } else {
       throw Exception('Failed to sign in');
     }

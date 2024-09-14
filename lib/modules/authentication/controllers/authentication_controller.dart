@@ -55,14 +55,14 @@ class AuthController extends GetxController {
     try {
       isLoading(true);
       var fetchSignIn = await ApiNovel().authSignIn(emailUser);
-      if (fetchSignIn == 'Success') {
+      if (fetchSignIn['user'] != null) {
         snackBarWidget.displaySnackBar(
             'Welcome Back', Colors.black, Colors.white, context);
         Get.offAllNamed('/novelListHome');
-      } else if (fetchSignIn == 'Failed') {
+      } else if (fetchSignIn['data']['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             "Account doesn't exist", Colors.black, Colors.red, context);
-      } else if (fetchSignIn == 'Forbidden') {
+      } else if (fetchSignIn['data']['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             "Access forbidden!!", Colors.red, Colors.white, context);
       } else {
@@ -115,10 +115,10 @@ class AuthController extends GetxController {
       if (reFetchOtp.length == 6) {
         snackBarWidget.displaySnackBar(
             'OTP resend is $reFetchOtp', Colors.black, Colors.white, context);
-      } else if (reFetchOtp == 'Failed') {
+      } else if (reFetchOtp['data']['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             "OTP resend failed", Colors.black, Colors.red, context);
-      } else if (reFetchOtp == 'Forbidden') {
+      } else if (reFetchOtp['data']['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             "Access forbidden!!", Colors.red, Colors.white, context);
       } else {

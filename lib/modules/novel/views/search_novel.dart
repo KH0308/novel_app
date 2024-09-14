@@ -170,6 +170,7 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
 
   Future<List<Map<String, dynamic>>> fetchSuggestions(String query) async {
     final List<dynamic> novelData = await apiNovel.fetchNovelLists();
+    const thumbnailDomain = 'https://test-api.kacs.my';
 
     final List<Map<String, dynamic>> suggestions = novelData
         .where((novels) => novels['data']['title']
@@ -182,7 +183,8 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
               'genre': novels['data']['genre'],
               'rating': novels['data']['rating'],
               'author': novels['data']['author'],
-              'thumbnail': novels['data']['cover']['formats']['thumbnail'],
+              'thumbnail':
+                  '$thumbnailDomain${novels['data']['cover']['formats']['thumbnail']['url']}',
             })
         .toList();
 
