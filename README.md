@@ -1,4 +1,4 @@
-# Novellete
+# Novelette
 
 A Flutter application developed with GetX for managing and displaying novels.
 
@@ -16,7 +16,7 @@ To set up and run this application on your local machine, follow these steps:
 2. **Navigate to the Project Directory**
 
    ```bash
-   cd novellete
+   cd novel_app
 
    ```
 
