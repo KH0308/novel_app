@@ -27,9 +27,9 @@ To set up and run this application on your local machine, follow these steps:
 
 ## Features
 
-    - Novel List: Displays a list of novels fetched from an API.
-    - Refresh Indicator: Allows users to refresh the list of novels.
-    - Pagination: Supports loading more novels as the user scrolls.
+    - [Novel List: Displays a list of novels fetched from an API.]
+    - [Refresh Indicator: Allows users to refresh the list of novels.]
+    - [Pagination: Supports loading more novels as the user scrolls.]
 
 ## Assumptions
 
