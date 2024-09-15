@@ -15,15 +15,24 @@ To set up and run this application on your local machine, follow these steps:
 
 2. **Navigate to the Project Directory**
 
+   ```bash
    cd novellete
+
+   ```
 
 3. **Install Dependencies**
 
+   ```bash
    flutter pub get
+
+   ```
 
 4. **Run the Application**
 
+   ```bash
    flutter run
+
+   ```
 
 ## Features
 
@@ -33,8 +42,8 @@ To set up and run this application on your local machine, follow these steps:
 
 ## Assumptions
 
-    - The application assumes that the API used for fetching novels is properly set up and accessible.
-    = Proper handling of errors and edge cases related to API responses is implemented.
+- The application assumes that the API used for fetching novels is properly set up and accessible.
+- Proper handling of errors and edge cases related to API responses is implemented.
 
 ## APK Download
 
@@ -44,8 +53,8 @@ You can download the APK file for the application from the following link:
 
 ## Future Enhancements
 
-    - Refresh Indicator: To be implemented for refreshing the novel list.
-    - Pagination: To be added for handling long lists of novels.
+- Refresh Indicator: To be implemented for refreshing the novel list.
+- Pagination: To be added for handling long lists of novels.
 
 ## Troubleshooting
 
