@@ -111,15 +111,17 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
                   ),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                  leading: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.teal.shade400,
-                    child: ClipOval(
-                      child: Image.network(
-                        suggestion['thumbnail'],
-                      ),
-                    ),
-                  ),
+                  leading: suggestion['thumbnail'] != null
+                      ? CircleAvatar(
+                          radius: 20,
+                          backgroundImage: NetworkImage(
+                            suggestion['thumbnail'],
+                          ),
+                        )
+                      : Icon(
+                          Icons.book,
+                          color: Colors.teal.shade400,
+                        ),
                   title: Text(
                     suggestion['title'],
                     style: GoogleFonts.poppins(
@@ -129,29 +131,30 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
                     ),
                   ),
                   subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Author: ${suggestion['author']}",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey,
                         ),
                       ),
                       Text(
                         "Genre: ${suggestion['genre']}",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.grey,
                         ),
                       ),
                       Text(
                         "Rating: ${suggestion['rating']}/10",
                         style: GoogleFonts.poppins(
                           fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
+                          fontWeight: FontWeight.normal,
+                          color: Colors.yellow.shade700,
                         ),
                       ),
                     ],
@@ -173,18 +176,18 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
     const thumbnailDomain = 'https://test-api.kacs.my';
 
     final List<Map<String, dynamic>> suggestions = novelData
-        .where((novels) => novels['data']['title']
+        .where((novels) => novels['title']
             .toString()
             .toLowerCase()
             .contains(query.toLowerCase()))
         .map<Map<String, dynamic>>((novels) => {
-              'id': novels['data']['id'],
-              'title': novels['data']['title'],
-              'genre': novels['data']['genre'],
-              'rating': novels['data']['rating'],
-              'author': novels['data']['author'],
+              'id': novels['id'],
+              'title': novels['title'],
+              'genre': novels['genre'],
+              'rating': novels['ratings'],
+              'author': novels['author'],
               'thumbnail':
-                  '$thumbnailDomain${novels['data']['cover']['formats']['thumbnail']['url']}',
+                  '$thumbnailDomain${novels['cover']['formats']['thumbnail']['url']}',
             })
         .toList();
 

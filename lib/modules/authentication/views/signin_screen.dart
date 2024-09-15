@@ -62,9 +62,9 @@ class SignInScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(
                     20,
-                    60,
+                    30,
                     20,
-                    40,
+                    50,
                   ),
                   child: Form(
                     key: formKey,
@@ -96,7 +96,18 @@ class SignInScreen extends StatelessWidget {
                         fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.black),
+                        contentPadding: const EdgeInsets.all(16.0),
+                        floatingLabelStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                        ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal.shade400),
                         ),
@@ -159,7 +170,7 @@ class SignInScreen extends StatelessWidget {
                           ),
                   ),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 20),
                 Text.rich(
                   TextSpan(
                     children: [

@@ -6,9 +6,10 @@ import 'package:novel_app/database/api_novel.dart';
 import 'package:novel_app/widgets/snackbar.dart';
 
 class AuthController extends GetxController {
-  var signIn = {}.obs;
-  var signUp = {}.obs;
+  var signUp = <String, dynamic>{}.obs;
   var isLoading = false.obs;
+  var isResendOTP = false.obs;
+  var currentOtp = ''.obs;
   var errorMessage = ''.obs;
   SnackBarWidget snackBarWidget = SnackBarWidget();
 
@@ -31,7 +32,17 @@ class AuthController extends GetxController {
           'email': fetchSignUp['user']['email'],
         };
 
-        Get.toNamed('/novelOTPValidation', arguments: signUp);
+        currentOtp.value = fetchSignUp['otp'];
+
+        snackBarWidget.displaySnackBar(
+          'OTP sent to $email has been auto field',
+          Colors.black,
+          Colors.white,
+          context,
+        );
+
+        Get.toNamed('/novelOTPValidation',
+            arguments: Map<String, dynamic>.from(signUp));
       } else if (fetchSignUp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             'Account already registered', Colors.black, Colors.red, context);
@@ -84,17 +95,17 @@ class AuthController extends GetxController {
   }
 
   Future<void> verifyOtp(
-      String phoneNumber, String otpCode, BuildContext context) async {
+      String emailAsIdentifier, String otpCode, BuildContext context) async {
     try {
       isLoading(true);
-      var fetchOtp = await ApiNovel().authOTP(phoneNumber, otpCode);
+      var fetchOtp = await ApiNovel().authOTP(emailAsIdentifier, otpCode);
       if (fetchOtp['user'] != null) {
         snackBarWidget.displaySnackBar(
             'Verify Success, Welcome', Colors.black, Colors.white, context);
         Get.offAllNamed('/novelListHome');
       } else if (fetchOtp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
-            'Account already registered', Colors.black, Colors.red, context);
+            'Wrong OTP inserted!', Colors.black, Colors.red, context);
       } else if (fetchOtp['error']['name'] == "ForbiddenError") {
         snackBarWidget.displaySnackBar(
             'Access Forbidden!!', Colors.red, Colors.white, context);
@@ -114,11 +125,12 @@ class AuthController extends GetxController {
 
   Future<void> resendOtp(String emailUser, BuildContext context) async {
     try {
-      isLoading(true);
+      isResendOTP(true);
       var reFetchOtp = await ApiNovel().reAuthOtp(emailUser);
-      if (reFetchOtp.length == 6) {
-        snackBarWidget.displaySnackBar(
-            'OTP resend is $reFetchOtp', Colors.black, Colors.white, context);
+      if (reFetchOtp['otp'] != null) {
+        currentOtp.value = reFetchOtp['otp'];
+        snackBarWidget.displaySnackBar('OTP resend is ${reFetchOtp['otp']}',
+            Colors.black, Colors.white, context);
       } else if (reFetchOtp['error']['name'] == "BadRequestError") {
         snackBarWidget.displaySnackBar(
             "OTP resend failed", Colors.black, Colors.red, context);
@@ -135,7 +147,7 @@ class AuthController extends GetxController {
     } catch (e) {
       errorMessage.value = 'Failed to resend OTP: $e';
     } finally {
-      isLoading(false);
+      isResendOTP(false);
     }
   }
 }

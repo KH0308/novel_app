@@ -124,8 +124,7 @@ class ApiNovel {
 
     if (response.statusCode == 200) {
       debugPrint('Resend otp by login request');
-      final resendOtpCode = json.decode(response.body)['otp'];
-      return resendOtpCode;
+      return json.decode(response.body);
     } else if (response.statusCode == 400) {
       debugPrint("Data not exist, otp can't resend");
       return json.decode(response.body);
@@ -146,7 +145,7 @@ class ApiNovel {
     });
 
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      return json.decode(response.body)['data'];
     } else if (response.statusCode == 400) {
       debugPrint('Invalid OTP');
       return [];

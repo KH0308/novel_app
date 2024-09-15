@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../database/api_novel.dart';
@@ -27,6 +28,7 @@ class NovelController extends GetxController {
       }
     } catch (e) {
       errorMessage.value = 'Failed to load novels: $e';
+      debugPrint(errorMessage.value);
     } finally {
       isLoading(false);
     }

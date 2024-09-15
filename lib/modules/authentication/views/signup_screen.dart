@@ -23,36 +23,37 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/images/main_bg.png"),
-              fit: BoxFit.fill,
+        body: SingleChildScrollView(
+          physics: const RangeMaintainingScrollPhysics(),
+          child: Container(
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.95,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/main_bg.png"),
+                fit: BoxFit.fill,
+              ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: formKey,
-              child: SingleChildScrollView(
-                physics: const RangeMaintainingScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: formKey,
                 child: Column(
                   children: [
-                    const SizedBox(height: 60),
+                    const SizedBox(height: 25),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         'Sign Up',
                         style: GoogleFonts.poppins(
-                          fontSize: 18,
+                          fontSize: 22,
                           color: Colors.black,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.normal,
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 20),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -71,8 +72,20 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.abc_rounded),
                         prefixIconColor: Colors.teal.shade400,
+                        contentPadding: const EdgeInsets.all(16.0),
                         labelText: 'First Name',
                         hintText: 'Kim',
+                        floatingLabelStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                        ),
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           color: Colors.grey,
@@ -81,7 +94,6 @@ class SignUpScreen extends StatelessWidget {
                         fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal.shade400),
                         ),
@@ -94,7 +106,7 @@ class SignUpScreen extends StatelessWidget {
                         errorStyle: const TextStyle(color: Colors.red),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -113,8 +125,20 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.abc_rounded),
                         prefixIconColor: Colors.teal.shade400,
+                        contentPadding: const EdgeInsets.all(16.0),
                         labelText: 'Last Name',
                         hintText: 'Han',
+                        floatingLabelStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                        ),
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           color: Colors.grey,
@@ -123,7 +147,6 @@ class SignUpScreen extends StatelessWidget {
                         fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal.shade400),
                         ),
@@ -136,7 +159,7 @@ class SignUpScreen extends StatelessWidget {
                         errorStyle: const TextStyle(color: Colors.red),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     TextFormField(
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -155,8 +178,20 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         prefixIcon: const Icon(Icons.email_rounded),
                         prefixIconColor: Colors.teal.shade400,
+                        contentPadding: const EdgeInsets.all(16.0),
                         labelText: 'Email',
                         hintText: 'abc@provider.com',
+                        floatingLabelStyle: GoogleFonts.poppins(
+                          fontSize: 12,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                        labelStyle: GoogleFonts.poppins(
+                          color: Colors.black,
+                          fontSize: 14,
+                          fontStyle: FontStyle.normal,
+                        ),
                         hintStyle: GoogleFonts.poppins(
                           fontSize: 10,
                           color: Colors.grey,
@@ -165,7 +200,6 @@ class SignUpScreen extends StatelessWidget {
                         fillColor: Colors.grey.shade200,
                         filled: true,
                         border: const OutlineInputBorder(),
-                        labelStyle: const TextStyle(color: Colors.black),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal.shade400),
                         ),
@@ -179,15 +213,24 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Obx(
                       () => DropdownButtonFormField<String>(
+                        iconEnabledColor: Colors.teal.shade400,
+                        dropdownColor: Colors.grey.shade200,
                         value: phoneCodeController.selectedGender.value,
                         items: phoneCodeController.genderOpt.map((gender) {
                           return DropdownMenuItem<String>(
                             value: gender,
-                            child: Text(gender),
+                            child: Text(
+                              gender,
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                color: Colors.black,
+                                fontStyle: FontStyle.normal,
+                              ),
+                            ),
                           );
                         }).toList(),
                         onChanged: (newGender) {
@@ -197,14 +240,36 @@ class SignUpScreen extends StatelessWidget {
                           labelText: 'Gender',
                           filled: true,
                           fillColor: Colors.grey.shade200,
+                          contentPadding: const EdgeInsets.all(16.0),
                           prefixIcon: Icon(
                             Icons.person,
                             color: Colors.teal.shade400,
                           ),
+                          floatingLabelStyle: GoogleFonts.poppins(
+                            fontSize: 12,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.normal,
+                          ),
+                          labelStyle: GoogleFonts.poppins(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontStyle: FontStyle.normal,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.teal.shade400),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.teal.shade400),
+                          ),
+                          errorBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.red),
+                          ),
+                          errorStyle: const TextStyle(color: Colors.red),
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 15),
                     SizedBox(
                       width: double.infinity,
                       child: Row(
@@ -213,10 +278,12 @@ class SignUpScreen extends StatelessWidget {
                             () {
                               if (phoneCodeController.isLoading.value) {
                                 return Container(
+                                  width: 30,
+                                  height: 30,
                                   color: Colors.transparent,
                                   child: Center(
                                     child: CircularProgressIndicator(
-                                      backgroundColor: Colors.black,
+                                      backgroundColor: Colors.grey.shade200,
                                       strokeWidth: 3.0,
                                       strokeCap: StrokeCap.round,
                                       valueColor: AlwaysStoppedAnimation(
@@ -231,22 +298,40 @@ class SignUpScreen extends StatelessWidget {
                                   size: 12,
                                   color: Colors.red,
                                 );
-                                // return Text(
-                                //     '${phoneCodeController.errorMessage}');
                               }
                               return DropdownButton<String>(
+                                menuMaxHeight: 200.0,
+                                iconEnabledColor: Colors.teal.shade400,
+                                dropdownColor: Colors.grey.shade200,
                                 value: phoneCodeController.selectedCode.value,
                                 items: phoneCodeController.countryCodes
                                     .map((country) {
                                   return DropdownMenuItem<String>(
                                     value: country['code'],
-                                    child: Row(
-                                      children: [
-                                        Text('${country['flag']}'),
-                                        const SizedBox(width: 8),
-                                        Text(
-                                            '${country['dialCode']} (${country['name']})'),
-                                      ],
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.25,
+                                      child: Row(
+                                        children: [
+                                          Text(
+                                            '${country['flag']}',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 4),
+                                          Text(
+                                            '${country['dialCode']} (${country['code']})',
+                                            style: GoogleFonts.poppins(
+                                              fontSize: 12,
+                                              color: Colors.black,
+                                              fontStyle: FontStyle.normal,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   );
                                 }).toList(),
@@ -256,6 +341,10 @@ class SignUpScreen extends StatelessWidget {
                                 },
                               );
                             },
+                          ),
+                          const SizedBox(
+                            width: 4,
+                            height: 4,
                           ),
                           Expanded(
                             child: TextFormField(
@@ -275,11 +364,12 @@ class SignUpScreen extends StatelessWidget {
                               controller: phoneNumController,
                               decoration: InputDecoration(
                                 labelText: 'Phone Number',
-                                helperText:
-                                    'No need start phone number with country code*',
+                                helperText: "* Don't include country code",
+                                contentPadding: const EdgeInsets.all(16.0),
                                 helperStyle: GoogleFonts.poppins(
                                   fontSize: 10,
                                   color: Colors.teal.shade400,
+                                  fontWeight: FontWeight.w500,
                                   fontStyle: FontStyle.normal,
                                 ),
                                 hintText: '11-11111111',
@@ -288,11 +378,20 @@ class SignUpScreen extends StatelessWidget {
                                   color: Colors.grey,
                                   fontStyle: FontStyle.normal,
                                 ),
+                                floatingLabelStyle: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                                labelStyle: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 14,
+                                  fontStyle: FontStyle.normal,
+                                ),
                                 fillColor: Colors.grey.shade200,
                                 filled: true,
                                 border: const OutlineInputBorder(),
-                                labelStyle:
-                                    const TextStyle(color: Colors.black),
                                 focusedBorder: OutlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Colors.teal.shade400),
@@ -311,56 +410,78 @@ class SignUpScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () async {
-                        final isValidForm = formKey.currentState?.validate();
-                        if (isValidForm != false) {
-                          final selectedCountry =
-                              phoneCodeController.countryCodes.firstWhere(
-                            (country) =>
-                                country['code'] ==
-                                phoneCodeController.selectedCode.value,
-                            orElse: () => {'dialCode': ''},
-                          );
-                          final dialCode = selectedCountry['dialCode'];
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Obx(
+                      () => ElevatedButton(
+                        onPressed: () async {
+                          final isValidForm = formKey.currentState?.validate();
+                          if (isValidForm != false) {
+                            final selectedCountry =
+                                phoneCodeController.countryCodes.firstWhere(
+                              (country) =>
+                                  country['code'] ==
+                                  phoneCodeController.selectedCode.value,
+                              orElse: () => {'dialCode': ''},
+                            );
+                            final dialCode = selectedCountry['dialCode'];
 
-                          final fullPhoneNumber =
-                              '$dialCode${phoneNumController.text}';
+                            final fullPhoneNumber =
+                                '$dialCode${phoneNumController.text}';
 
-                          authController.signUpUser(
-                            emailController.text,
-                            fNameController.text,
-                            lNameController.text,
-                            phoneCodeController.selectedGender.value,
-                            phoneCodeController.selectedCode.value,
-                            fullPhoneNumber,
-                            context,
-                          );
-                        } else {
-                          snackBar.displaySnackBar(
-                            'All field need to be fill!!',
-                            Colors.red,
-                            Colors.white,
-                            context,
-                          );
-                        }
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.teal.shade400),
-                        shape:
-                            MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
+                            authController.signUpUser(
+                              emailController.text,
+                              fNameController.text,
+                              lNameController.text,
+                              phoneCodeController.selectedGender.value,
+                              phoneCodeController.selectedCode.value,
+                              fullPhoneNumber,
+                              context,
+                            );
+                          } else {
+                            snackBar.displaySnackBar(
+                              'All field need to be fill!!',
+                              Colors.red,
+                              Colors.white,
+                              context,
+                            );
+                          }
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              Colors.teal.shade400),
+                          fixedSize:
+                              MaterialStateProperty.all(const Size(110, 40)),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
                           ),
                         ),
+                        child: authController.isLoading.isTrue
+                            ? Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    backgroundColor: Colors.teal.shade400,
+                                    strokeWidth: 4.0,
+                                    strokeCap: StrokeCap.round,
+                                    valueColor: const AlwaysStoppedAnimation(
+                                        Colors.white),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                'Sign Up',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 14,
+                                  color: Colors.white,
+                                  fontStyle: FontStyle.normal,
+                                ),
+                              ),
                       ),
-                      child: Text('Sign Up',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: Colors.white,
-                            fontStyle: FontStyle.normal,
-                          )),
                     ),
                     const SizedBox(height: 5),
                     Text.rich(
@@ -380,7 +501,7 @@ class SignUpScreen extends StatelessWidget {
                             text: 'By clicking you agree with\n',
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w400,
                               height: 0,
                             ),
@@ -389,7 +510,7 @@ class SignUpScreen extends StatelessWidget {
                             text: 'Term of Service & Privacy Policy',
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                               height: 0,
                             ),
@@ -398,7 +519,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -406,13 +527,13 @@ class SignUpScreen extends StatelessWidget {
                           "Already have an account?",
                           style: GoogleFonts.poppins(
                             color: Colors.black,
-                            fontSize: 14,
+                            fontSize: 12,
                             fontWeight: FontWeight.normal,
                           ),
                         ),
                         TextButton(
                           onPressed: () {
-                            Get.back();
+                            Get.offAllNamed('/novelSignIn');
                           },
                           style: ButtonStyle(
                             backgroundColor:
@@ -425,7 +546,7 @@ class SignUpScreen extends StatelessWidget {
                             'Sign In',
                             style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 14,
+                              fontSize: 12,
                               fontWeight: FontWeight.w600,
                             ),
                           ),

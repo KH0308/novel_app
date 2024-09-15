@@ -27,6 +27,7 @@ class NovelDetailsScreen extends StatelessWidget {
       child: Scaffold(
         body: Container(
           width: double.infinity,
+          height: MediaQuery.of(context).size.height * 0.95,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/images/main_bg.png"),
