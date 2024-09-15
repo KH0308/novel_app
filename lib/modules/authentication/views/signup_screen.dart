@@ -19,7 +19,6 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController fNameController = TextEditingController();
   final TextEditingController lNameController = TextEditingController();
   final TextEditingController phoneNumController = TextEditingController();
-  // String genderDefValue = 'Male';
 
   @override
   Widget build(BuildContext context) {

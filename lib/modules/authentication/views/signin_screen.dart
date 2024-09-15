@@ -10,8 +10,6 @@ import '../../../widgets/snackbar.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
-  // final PhoneCodeController phoneCodeController =
-  //     Get.put(PhoneCodeController());
   final AuthController authController = Get.put(AuthController());
   final formKey = GlobalKey<FormState>();
   final SnackBarWidget snackBar = SnackBarWidget();

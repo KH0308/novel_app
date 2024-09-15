@@ -13,10 +13,6 @@ class NovelDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final novelId = Get.arguments;
-
-    // novelController.fetchNovelDetails(novelId);
-
     String formatDate(String dateTimeString) {
       DateTime dateTime = DateTime.parse(dateTimeString);
       String formattedDate = DateFormat('dd/MM/yyyy').format(dateTime);

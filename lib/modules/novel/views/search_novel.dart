@@ -33,7 +33,7 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
   }
 
   InputDecorationTheme? inputDecorationTheme = const InputDecorationTheme(
-    border: InputBorder.none, // Remove underline
+    border: InputBorder.none,
   );
 
   @override
