@@ -160,7 +160,7 @@ class CustomSearchDelegateWidget extends SearchDelegate<String> {
                     ],
                   ),
                   onTap: () {
-                    novelController.goToDetailPage(suggestion['id']);
+                    novelController.goToDetailPage(suggestion['id'].toString());
                   },
                 ),
               );

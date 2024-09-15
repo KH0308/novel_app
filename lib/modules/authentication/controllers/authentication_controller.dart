@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:novel_app/database/api_novel.dart';
@@ -9,9 +10,22 @@ class AuthController extends GetxController {
   var signUp = <String, dynamic>{}.obs;
   var isLoading = false.obs;
   var isResendOTP = false.obs;
+  var conStatus = false.obs;
   var currentOtp = ''.obs;
   var errorMessage = ''.obs;
   SnackBarWidget snackBarWidget = SnackBarWidget();
+
+  Future<void> checkConnectivity() async {
+    errorMessage.value = '';
+    var connectionResult = await Connectivity().checkConnectivity();
+
+    if (connectionResult != ConnectivityResult.mobile &&
+        connectionResult != ConnectivityResult.wifi) {
+      conStatus(false);
+    } else {
+      conStatus(true);
+    }
+  }
 
   Future<void> signUpUser(
       String email,

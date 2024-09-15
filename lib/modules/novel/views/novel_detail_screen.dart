@@ -13,9 +13,9 @@ class NovelDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final novelId = Get.arguments;
+    // final novelId = Get.arguments;
 
-    novelController.fetchNovelDetails(novelId);
+    // novelController.fetchNovelDetails(novelId);
 
     String formatDate(String dateTimeString) {
       DateTime dateTime = DateTime.parse(dateTimeString);
@@ -36,16 +36,16 @@ class NovelDetailsScreen extends StatelessWidget {
           ),
           child: Obx(
             () {
-              if (novelController.isLoading.value) {
+              if (novelController.isLoadingDetails.value) {
                 return Container(
                   color: Colors.transparent,
                   child: Center(
                     child: CircularProgressIndicator(
-                      backgroundColor: Colors.teal.shade400,
-                      strokeWidth: 6.0,
+                      backgroundColor: Colors.grey.shade200,
+                      strokeWidth: 4.0,
                       strokeCap: StrokeCap.round,
-                      valueColor: const AlwaysStoppedAnimation(
-                        Colors.black,
+                      valueColor: AlwaysStoppedAnimation(
+                        Colors.teal.shade400,
                       ),
                     ),
                   ),
@@ -55,12 +55,13 @@ class NovelDetailsScreen extends StatelessWidget {
               if (novelController.errorMessage.value.isNotEmpty) {
                 return Center(
                   child: Text(
-                    novelController.errorMessage.value,
+                    "Opps Something Wrong\nTry again later",
                     style: GoogleFonts.poppins(
                       color: Colors.black,
                       fontSize: 16,
                       fontWeight: FontWeight.w400,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 );
               }
@@ -73,115 +74,135 @@ class NovelDetailsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     novel['cover']['formats']['thumbnail']['url'] != null
-                        ? CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.teal.shade400,
-                            child: ClipOval(
-                              child: Image.network(
-                                '$domainThumbnail${novel['cover']['formats']['thumbnail']['url']}',
-                              ),
+                        ? Align(
+                            alignment: Alignment.center,
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.teal.shade400,
+                              backgroundImage: NetworkImage(
+                                  '$domainThumbnail${novel['cover']['formats']['thumbnail']['url']}'),
                             ),
                           )
-                        : const CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.white,
-                            child: ClipOval(
-                              child: Icon(
-                                Icons.book_rounded,
+                        : Align(
+                            alignment: Alignment.center,
+                            child: CircleAvatar(
+                              radius: 60,
+                              backgroundColor: Colors.teal.shade400,
+                              child: const Icon(
+                                Icons.menu_book_rounded,
                                 color: Colors.white,
+                                size: 80,
                               ),
                             ),
                           ),
                     const SizedBox(height: 20),
                     Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.70,
+                      height: MediaQuery.of(context).size.height * 0.60,
                       decoration: BoxDecoration(
-                        color: Colors.teal.shade400,
+                        color: Colors.grey.shade200,
                         borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(40),
-                          bottomRight: Radius.circular(40),
+                          topLeft: Radius.circular(50),
+                          bottomRight: Radius.circular(50),
                         ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black,
+                            offset: Offset(0, 2),
+                            blurRadius: 4,
+                          ),
+                        ],
                       ),
-                      child: SingleChildScrollView(
-                        physics: const RangeMaintainingScrollPhysics(),
-                        child: Column(
-                          children: [
-                            Text(
-                              novel['title'] ?? 'No Title',
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Author: ${novel['author'] ?? 'Unknown'}',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            novel['publication'] != null
-                                ? Text(
-                                    'Publication: ${formatDate(novel['publication'])}',
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  )
-                                : Text(
-                                    "Publication: 'N/A",
-                                    style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w400,
-                                    ),
-                                  ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Genre: ${novel['genre'] ?? 'N/A'}',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              'Ratings: ${novel['ratings'] ?? 'N/A'}',
-                              style: GoogleFonts.poppins(
-                                color: Colors.white,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              'Summary:',
-                              style: GoogleFonts.poppins(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Html(
-                              data: novel['summary'] ?? 'No summary available',
-                              style: {
-                                "body": Style(
-                                  color: Colors.grey,
-                                  fontSize: FontSize(12),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: 'Poppins',
+                      child: Padding(
+                        padding: const EdgeInsetsDirectional.fromSTEB(
+                          25.0,
+                          16.0,
+                          25.0,
+                          16.0,
+                        ),
+                        child: SingleChildScrollView(
+                          physics: const RangeMaintainingScrollPhysics(),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                novel['title'] ?? 'No Title',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                              },
-                            ),
-                          ],
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Author: ${novel['author'] ?? 'Unknown'}',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              novel['publication'] != null
+                                  ? Text(
+                                      'Publication: ${formatDate(novel['publication'])}',
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    )
+                                  : Text(
+                                      "Publication: 'N/A",
+                                      style: GoogleFonts.poppins(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Genre: ${novel['genre'] ?? 'N/A'}',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Ratings: ${novel['ratings'] ?? 'N/A'}',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.grey,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              Text(
+                                'Summary:',
+                                style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Html(
+                                data:
+                                    novel['summary'] ?? 'No summary available',
+                                style: {
+                                  "body": Style(
+                                    color: Colors.teal.shade400,
+                                    fontSize: FontSize(12),
+                                    fontWeight: FontWeight.w400,
+                                    fontFamily: 'Poppins',
+                                    textAlign: TextAlign.justify,
+                                  ),
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

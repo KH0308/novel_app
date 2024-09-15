@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -293,10 +295,16 @@ class SignUpScreen extends StatelessWidget {
                                 );
                               }
                               if (phoneCodeController.errorMessage.isNotEmpty) {
-                                return const Icon(
-                                  Icons.error_rounded,
-                                  size: 12,
-                                  color: Colors.red,
+                                return IconButton(
+                                  onPressed: () {
+                                    phoneCodeController.fetchCountryCodes();
+                                  },
+                                  tooltip: 'No code, press to refresh',
+                                  icon: const Icon(
+                                    Icons.error_rounded,
+                                    size: 20,
+                                    color: Colors.red,
+                                  ),
                                 );
                               }
                               return DropdownButton<String>(
@@ -430,15 +438,27 @@ class SignUpScreen extends StatelessWidget {
                             final fullPhoneNumber =
                                 '$dialCode${phoneNumController.text}';
 
-                            authController.signUpUser(
-                              emailController.text,
-                              fNameController.text,
-                              lNameController.text,
-                              phoneCodeController.selectedGender.value,
-                              phoneCodeController.selectedCode.value,
-                              fullPhoneNumber,
-                              context,
-                            );
+                            await authController.checkConnectivity();
+
+                            if (authController.conStatus.isTrue &&
+                                dialCode != null) {
+                              authController.signUpUser(
+                                emailController.text,
+                                fNameController.text,
+                                lNameController.text,
+                                phoneCodeController.selectedGender.value,
+                                phoneCodeController.selectedCode.value,
+                                fullPhoneNumber,
+                                context,
+                              );
+                            } else {
+                              snackBar.displaySnackBar(
+                                'No Connection',
+                                Colors.red,
+                                Colors.white,
+                                context,
+                              );
+                            }
                           } else {
                             snackBar.displaySnackBar(
                               'All field need to be fill!!',

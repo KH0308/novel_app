@@ -21,6 +21,7 @@ class PhoneCodeController extends GetxController {
   }
 
   Future<void> fetchCountryCodes() async {
+    errorMessage.value = '';
     try {
       isLoading(true);
       var fetchCodeNumber = await ApiNovel().fetchCountryCodes();

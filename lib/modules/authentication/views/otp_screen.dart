@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,7 +16,6 @@ class OTPScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, dynamic> signUpData = Get.arguments;
-    // final phoneNum = signUpData['phoneNum'];
     var otpCode = signUpData['phoneOtp'];
     final emailUsAsResendOtp = signUpData['email'];
     final AuthController authController = AuthController();
@@ -135,13 +136,23 @@ class OTPScreen extends StatelessWidget {
                           ),
                           Obx(
                             () => TextButton(
-                              onPressed: () {
+                              onPressed: () async {
                                 otpCode = '';
                                 otpController.clear();
-                                authController.resendOtp(
-                                  emailUsAsResendOtp,
-                                  context,
-                                );
+                                await authController.checkConnectivity();
+                                if (authController.conStatus.isTrue) {
+                                  authController.resendOtp(
+                                    emailUsAsResendOtp,
+                                    context,
+                                  );
+                                } else {
+                                  snackBarWidget.displaySnackBar(
+                                    'No Connection',
+                                    Colors.red,
+                                    Colors.white,
+                                    context,
+                                  );
+                                }
                               },
                               style: ButtonStyle(
                                 backgroundColor:
@@ -175,25 +186,25 @@ class OTPScreen extends StatelessWidget {
                                     ),
                             ),
                           ),
-                          // TextButton(
-                          //     onPressed: () {
-                          //       snackBarWidget.displaySnackBar(
-                          //         '$otpCode',
-                          //         Colors.red,
-                          //         Colors.white,
-                          //         context,
-                          //       );
-                          //     },
-                          //     child: Text('test'))
                         ],
                       ),
                       const SizedBox(height: 20),
                       Obx(
                         () => ElevatedButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
-                              authController.verifyOtp(emailUsAsResendOtp,
-                                  otpController.text, context);
+                              await authController.checkConnectivity();
+                              if (authController.conStatus.isTrue) {
+                                authController.verifyOtp(emailUsAsResendOtp,
+                                    otpController.text, context);
+                              } else {
+                                snackBarWidget.displaySnackBar(
+                                  'No Connection',
+                                  Colors.red,
+                                  Colors.white,
+                                  context,
+                                );
+                              }
                             } else {
                               snackBarWidget.displaySnackBar(
                                 'Please enter a valid OTP',

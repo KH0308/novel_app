@@ -7,6 +7,7 @@ class NovelController extends GetxController {
   var novels = [].obs;
   var novelDetails = {}.obs;
   var isLoading = false.obs;
+  var isLoadingDetails = false.obs;
   var errorMessage = ''.obs;
 
   @override
@@ -16,6 +17,7 @@ class NovelController extends GetxController {
   }
 
   Future<void> fetchNovels() async {
+    errorMessage.value = '';
     try {
       isLoading(true);
       var fetchedNovels = await ApiNovel().fetchNovelLists();
@@ -34,25 +36,27 @@ class NovelController extends GetxController {
     }
   }
 
-  void fetchNovelDetails(String novelId) async {
+  Future<void> fetchNovelDetails(String novelId) async {
+    errorMessage.value = '';
     try {
-      isLoading(true);
+      isLoadingDetails(true);
       var details = await ApiNovel().fetchNovelDetails(novelId);
       if (details.isNotEmpty) {
         novelDetails.value = details;
-        isLoading.value = false;
+        isLoadingDetails.value = false;
       } else {
         errorMessage.value = 'Data is empty';
-        isLoading.value = false;
+        isLoadingDetails.value = false;
       }
     } catch (e) {
       errorMessage.value = 'Failed to load novel details: $e';
     } finally {
-      isLoading(false);
+      isLoadingDetails(false);
     }
   }
 
-  void goToDetailPage(String novelID) {
+  void goToDetailPage(String novelID) async {
+    await fetchNovelDetails(novelID);
     Get.toNamed('/novelDetail', arguments: novelID);
   }
 }
